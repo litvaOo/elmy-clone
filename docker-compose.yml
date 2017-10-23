@@ -1,0 +1,25 @@
+services:
+  backend:
+    build: ./backend/
+    command: bash -c "python manage.py migrate; python manage.py runserver 0.0.0.0:8000"
+    container_name: docker-backend
+    depends_on: [database]
+    env_file: [.env]
+    ports: ['8000:8000']
+    volumes: ['./backend/:/var/www/docker', './frontend/:/var/www/docker/static/',
+      './downloads/:/var/www/downloads']
+    working_dir: /var/www/docker
+  database:
+    container_name: docker-database
+    env_file: [.env]
+    image: postgres:9.6
+    volumes: ['./downloads/:/var/www/downloads']
+  frontend:
+    command: yarn start
+    container_name: docker-frontend
+    env_file: [.env]
+    image: node:8
+    volumes: ['./backend/:/var/www/docker', './frontend/:/var/www/docker/static/',
+      './downloads/:/var/www/downloads']
+    working_dir: /var/www/docker/static/
+version: '3'

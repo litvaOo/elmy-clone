@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<ul>
+  {% for book in bookings %}
+    <li> <a href="{% url 'provider_page' book.booked_job.provider.pk %}">{{ book.booked_job.provider.username }}</a></li>
+    <li>{{ book.date }}</li>
+    <li>{{ book.booked_job }}</li>
+  {% endfor %}
+</ul>
+
+{% endblock content %}

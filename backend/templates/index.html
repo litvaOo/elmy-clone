@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% spaceless %}
+{% block title %}Main page{% endblock title %}
+{% block content %}
+  <div class="justify-content-center mt-5">
+    <div class="col-12">
+      <h1 class="text-left">Elmy-Clone</h1>
+      <div class="col-6">
+        <h4 class="text-left">Get Access To 10 000+ <br />
+           Specialists Near You</h4>
+      </div>
+      <div class="">
+        <form class="form-inline" action="{% url 'job-redirect' %}" method="post" novalidate>
+          <!--
+          <input type="text" name="job-type" placeholder="Services" class="form-control">
+          <input type="text" name="city" placeholder="Enter location" class="form-control">
+          -->
+          {% csrf_token %}
+          {% for field in form %}
+              {% render_field field class="form-control ui-autocomplete-input" %}
+          {% endfor %}
+          <button type="submit" class="btn btn-primary">Start Searching</button>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+{% block extra_body %}
+<script type="text/javascript">
+  var input = document.getElementById('id_city');
+  var options = {
+    types: ['(cities)']
+  };
+
+  autocomplete = new google.maps.places.Autocomplete(input, options)
+</script>
+<!-- <script type="text/javascript">
+  $("#id_job_type").change(function(){
+    var job_type = $(this).val()
+
+    $.ajax({
+      url: '{% url "job_type_complete" %}',
+      data: {
+        'job_type': job_type
+      },
+      dataType: 'json',
+      success: function(data){
+          for (i = 0; i <= data.available_types.length; i++) {
+            $("#id_job_type").append($('<option>', {
+              value: data.available_types[i],
+              text: data.available_types[i]
+            }));
+          }
+      }
+    });
+  });
+</script> -->
+ <script type="text/javascript">
+  $(document).ready(function() {
+    var location_input=$('input[id="id_job_type"]');
+    location_input.autocomplete({
+      source: '{% url "job_type_complete" %}',
+      minLength: 2,
+    });
+  });
+</script>
+{% endblock extra_body %}
+{% endspaceless %}

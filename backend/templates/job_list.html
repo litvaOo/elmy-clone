@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Search for {{ job_type }} {% endblock title %}
+{% block content %}
+{% if jobs %}
+<ul>
+  {% for job in jobs %}
+      <li> <a href="{% url 'provider_page' job.provider.pk %}"> {{ job.provider.username }}</a></li>
+      <li>{{ job.price }}</li>
+      <li>{{ job.time }}</li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>No jobs matching this query</p>
+{% endif %}
+{% endblock content %}

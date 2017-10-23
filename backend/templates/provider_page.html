@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+  <ul>
+    <li>Rating: {{provider.provider.rating}}</li>
+    <li>Description: {{ provider.provider.description }}</li>
+    <li>City: {{ provider.provider.city }} </li>
+    <li>Phone: {{ provider.phone }}</li>
+    <li>Name {{ provider.username }}</li>
+  </ul>
+  <ul>
+    {% for job in jobs %}
+      <li>{{job.job_type}}</li>
+      <li>{{job.price}}</li>
+      <li>{{job.time}}</li>
+      <a href="{% url 'book_page' job.pk %}" class="btn btn-primary">Book this job</a>
+    {% endfor %}
+  </ul>
+
+{% endblock content %}
